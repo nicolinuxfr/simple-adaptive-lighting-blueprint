@@ -1,6 +1,7 @@
 # Home Assistant Blueprint: Simple Adaptive Lighting
 
-English version: [`README.md`](README.md) — Version française : [`README.fr.md`](README.fr.md)
+- English version: [`README.md`](README.md) 
+- Version française : [`README.fr.md`](README.fr.md)
 
 
 ## Blueprint verwenden
