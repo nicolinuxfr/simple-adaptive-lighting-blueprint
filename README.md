@@ -1,62 +1,61 @@
-# Home Assistant Blueprint: Simple Adaptive Lighting
+# Simplified Adaptive Lighting
 
+This *blueprint* for Home Assistant is inspired by the [Adaptive Lighting integration](https://github.com/basnijholt/adaptive-lighting) and automatically adjusts connected lights throughout the day and even at night. Compared to the integration, it is much simpler and offers far fewer options.
 
-French version: [`README.fr.md`](README.fr.md) — German version: [`README.de.md`](README.de.md)
+It is available in these languages : 
 
-## Use the Blueprint 
+- [French](README.fr.md)
+- [German](README.de.md)
 
-You can import the blueprint on your Home Assistant instance using this direct link : 
+## Using the Blueprint
 
-[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fraw.githubusercontent.com%2Fnicolinuxfr%2Fsimple-adaptative-lighting%2Fgh-pages%2Fen%2Fadaptive_lighting.yaml)
+You can add this *blueprint* to your Home Assistant instance using this direct link:
 
-## Structure
+[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fraw.githubusercontent.com%2Fnicolinuxfr%2Fsimple-adaptive-lighting-blueprint%2Fgh-pages%2Fen%2Fadaptive_lighting.yaml)
 
-- `template.yaml`: source blueprint with `[[...]]` placeholders
-- `VERSION`: single blueprint version (injected into the description and `blueprint_revision`)
-- `languages/en.json`: reference dictionary (required, complete)
-- `languages/<lang>.json`: per-language translations (automatic fallback to `en`)
-- `scripts/generate_blueprints.py`: generation + validation
-- `dist/<lang>/adaptive_lighting.yaml`: generated blueprints
+Alternatively, you can copy this link to paste into Home Assistant when adding a blueprint:
 
-## Validation rules
+	https://raw.githubusercontent.com//nicolinuxfr/simple-adaptive-lighting-blueprint/gh-pages/en/adaptive_lighting.yaml
 
-- All template keys must exist in `languages/en.json`.
-- Other languages can omit keys (fallback to `en`).
-- Unknown keys in any dictionary fail the build (typo guard).
+## Configuration
 
-## Local generation
+The automation created from the blueprint only requires one parameter: one or more lights. You can enter multiple different entities or a Home Assistant group. The other parameters can be left at their default configuration or adjusted to your needs.
 
-```bash
-python3 scripts/generate_blueprints.py
-```
+Here is the list of options with some explanations where needed:
 
-- Generates `dist/en/adaptive_lighting.yaml`, `dist/fr/adaptive_lighting.yaml`, etc.
-- Injects `[[blueprint.version]]` from `VERSION`.
-- The version line is translated through `blueprint.version.line` in each `languages/<lang>.json`,
-  with a `{version}` placeholder (example: `Version: {version}`).
+- **Main settings**: choose the minimum and maximum brightness, as well as the minimum and maximum white temperature for the lights.
+- **Entity control**: by selecting a boolean entity (of type `input_boolean` or `binary_sensor`), you can add control over the automation without disabling it. The entity must be active for the automation to adjust the lights, and when it is disabled, the lights stay at the last automatic setting.
+- **Weather**: by selecting a weather entity, the automation's behavior is modified based on weather conditions. The idea is to slightly vary the parameters to have dimmer and warmer lighting when weather conditions are bad.
+- **Night mode**: by selecting a boolean entity (of type `input_boolean` or `binary_sensor`), you can set up specific fixed lighting for the night. When the entity is active, automatic adjustments are disabled and the brightness and color temperature settings are used instead. This allows daytime settings bright enough to be comfortable, while keeping nighttime lighting much dimmer.
 
-## GitHub Actions CI/CD
+For all three optional features (entity control, weather and night mode), leaving the field empty disables the feature entirely.
 
-Workflow: `.github/workflows/blueprint-i18n.yml`
+## How It Works
 
-- On pull requests and pushes: validates template + dictionaries.
-- On push to `main`: regenerates and publishes `dist/` to `gh-pages`.
+The automation activates as soon as the selected lights turn on. From there, it triggers every five minutes to adjust the brightness and white temperature based on the defined parameters, the time of day, and the automatically calculated curve. Each transition is spread over ten seconds to avoid visible changes. To limit issues with certain lights, the automation adopts a two-step strategy and alternates between brightness and white temperature at each update.
 
-## Stable public URLs for Home Assistant
+If a control entity is used, adaptation automatically stops as soon as the entity is disabled and resumes if it is re-enabled. In this case, there is no delay — the correct values are immediately sent, with a smooth progression over 10 seconds.
 
-Use `raw` URLs from the `gh-pages` branch:
+If weather adaptation is enabled, the curve is slightly adjusted based on current weather conditions. This information is only updated when the lights are initially turned on, to save resources.
 
-- English:
-  - `https://raw.githubusercontent.com/<owner>/<repo>/gh-pages/en/adaptive_lighting.yaml`
-- French:
-  - `https://raw.githubusercontent.com/<owner>/<repo>/gh-pages/fr/adaptive_lighting.yaml`
-- German:
-  - `https://raw.githubusercontent.com/<owner>/<repo>/gh-pages/de/adaptive_lighting.yaml`
+Several strategies are in place to slightly adjust the automation's behavior depending on the situation. For example, the curve is different when only one light is configured compared to an automation controlling multiple lights.
 
-These URLs stay stable as long as you keep the `gh-pages` branch and paths.
+## Limitations
 
-## Add a new language
+This blueprint intentionally does not handle certain features:
 
-1. Create `languages/<lang>.json`
-2. Add translated keys (partial is allowed)
-3. Let CI validate and publish
+- No color management, only white temperature;
+- No curve adjustment — the retained parameters are those that suit my needs;
+- No adjustments possible for start and end times — only sunrise and sunset times at your home's location are used;
+- No manual light control in case of individual changes — the automation will always trigger every five minutes and overwrite changes;
+- Certainly many others.
+
+## Disclaimer
+
+I did not directly code this *blueprint* myself — I used tools like Codex and Claude Code to create it. It is therefore offered without warranty, except that it works perfectly for me. I have tested it with multiple configurations and many lights and have noted no issues.
+
+The translations are also generated automatically by these tools — I wrote all the text in French.
+
+## Contributing
+
+All contributions are welcome, to fix bugs or add features. However, I want to keep the configuration as simple as possible — my intention is not to reproduce the Adaptive Lighting integration.
