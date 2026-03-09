@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026.3.3
+
+- Automatically deactivate the control entity if you change the lights to display colors. 
+
 ## 2026.3.2
 
 - Simplification of the blueprint, with only three sections now : 

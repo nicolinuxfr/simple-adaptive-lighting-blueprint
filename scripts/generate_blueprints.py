@@ -124,7 +124,10 @@ def main() -> int:
     if not template_keys:
         raise SystemExit("No placeholders found in template.")
     version = load_version(version_file)
-    computed_values = {"blueprint.version": version}
+    computed_values = {
+        "blueprint.version": version,
+        "blueprint.version.nodots": version.replace(".", ""),
+    }
     required_i18n_keys = template_keys - set(computed_values)
 
     dictionaries: dict[str, dict[str, str]] = {}

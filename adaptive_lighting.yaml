@@ -1,28 +1,28 @@
 blueprint:
-  name: "[[blueprint.name]] ([[blueprint.version]])"
+  name: "Simplified Adaptive Lighting (2026.3.3)"
   description: |-
-    [[blueprint.description]]
+    This blueprint adjusts the brightness and white temperature of connected lights based on the sun position.
 
-    [[blueprint.version.line]] — [Changelog](https://github.com/nicolinuxfr/simple-adaptive-lighting-blueprint/blob/main/CHANGELOG.md#[[blueprint.version.nodots]])
+    Version: 2026.3.3 — [Changelog](https://github.com/nicolinuxfr/simple-adaptive-lighting-blueprint/blob/main/CHANGELOG.md#202633)
   domain: automation
   homeassistant:
     min_version: 2024.6.0
   input:
     target_lights:
-      name: [[input.target_lights.name]]
-      description: [[input.target_lights.description]]
+      name: Lights to control
+      description: Choose one or more light(s) to control with this automation.
       selector:
         entity:
           domain: light
           multiple: true
 
     adaptive_settings:
-      name: [[input.adaptive_settings.name]]
+      name: Main settings
       icon: mdi:tune-vertical
       input:
         brightness_night:
-          name: [[input.brightness_night.name]]
-          description: [[input.brightness_night.description]]
+          name: Minimum brightness
+          description: Minimum brightness at the beginning and end of the day.
           default: 30
           selector:
             number:
@@ -33,8 +33,8 @@ blueprint:
               unit_of_measurement: "%"
 
         brightness_day:
-          name: [[input.brightness_day.name]]
-          description: [[input.brightness_day.description]]
+          name: Maximum brightness
+          description: Maximum brightness in the middle of the day.
           default: 100
           selector:
             number:
@@ -45,8 +45,8 @@ blueprint:
               unit_of_measurement: "%"
 
         kelvin_night:
-          name: [[input.kelvin_night.name]]
-          description: [[input.kelvin_night.description]]
+          name: Minimum temperature
+          description: White temperature at the beginning and end of the day (in Kelvin).
           default: 2700
           selector:
             number:
@@ -57,8 +57,8 @@ blueprint:
               unit_of_measurement: K
 
         kelvin_day:
-          name: [[input.kelvin_day.name]]
-          description: [[input.kelvin_day.description]]
+          name: Maximum temperature
+          description: White temperature in the middle of the day (in Kelvin).
           default: 5500
           selector:
             number:
@@ -69,13 +69,13 @@ blueprint:
               unit_of_measurement: K
 
     advanced_settings:
-      name: [[input.advanced_settings.name]]
+      name: Advanced settings
       icon: mdi:cog
       collapsed: true
       input:
         auto_mode_boolean:
-          name: [[input.auto_mode_boolean.name]]
-          description: [[input.auto_mode_boolean.description]]
+          name: Automatic adaptation control
+          description: An input_boolean or binary_sensor entity that controls lighting adaptations. Leave the field empty to not use this additional control.
           default: ""
           selector:
             entity:
@@ -84,28 +84,28 @@ blueprint:
                 - domain: binary_sensor
 
         disable_on_color:
-          name: [[input.disable_on_color.name]]
-          description: [[input.disable_on_color.description]]
+          name: Automatic deactivation on color
+          description: If enabled, the control entity above is automatically disabled when one of the lights switches to color mode. You will need to re-enable it manually or via another automation.
           default: false
           selector:
             boolean:
 
         weather_entity:
-          name: [[input.weather_entity.name]]
-          description: [[input.weather_entity.description]]
+          name: Weather-based variation
+          description: A weather entity that will be used to adjust settings based on weather conditions. Leave the field empty to not use this feature.
           default: ""
           selector:
             entity:
               domain: weather
 
     night_mode_section:
-      name: [[input.night_mode_section.name]]
+      name: Night mode
       icon: mdi:weather-night
       collapsed: true
       input:
         night_mode_entity:
-          name: [[input.night_mode_entity.name]]
-          description: [[input.night_mode_entity.description]]
+          name: Night mode
+          description: An input_boolean or binary_sensor entity that controls night mode. When it is active, lights are set to the fixed brightness and white temperature defined below.
           default: ""
           selector:
             entity:
@@ -114,8 +114,8 @@ blueprint:
                 - domain: binary_sensor
 
         night_mode_brightness:
-          name: [[input.night_mode_brightness.name]]
-          description: [[input.night_mode_brightness.description]]
+          name: Night brightness
+          description: Fixed brightness applied when night mode is active.
           default: 20
           selector:
             number:
@@ -126,8 +126,8 @@ blueprint:
               unit_of_measurement: "%"
 
         night_mode_kelvin:
-          name: [[input.night_mode_kelvin.name]]
-          description: [[input.night_mode_kelvin.description]]
+          name: Night temperature
+          description: Fixed white temperature applied when night mode is active (in Kelvin).
           default: 2200
           selector:
             number:
@@ -140,7 +140,7 @@ blueprint:
 mode: restart
 
 variables:
-  blueprint_revision: "[[blueprint.version]]"
+  blueprint_revision: "2026.3.3"
   auto_mode_input_entity: !input auto_mode_boolean
   disable_on_color: !input disable_on_color
   b_night: !input brightness_night
