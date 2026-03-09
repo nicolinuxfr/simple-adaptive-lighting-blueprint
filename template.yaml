@@ -232,6 +232,7 @@ condition:
          and disable_on_color
          and auto_mode_input_entity not in ['', none]
          and auto_mode_input_entity.startswith('input_boolean.')
+         and event.new_state.state == 'on'
          and event.new_state.attributes.color_mode is defined
          and event.new_state.attributes.color_mode not in ['color_temp', 'white']
          and (
@@ -286,6 +287,7 @@ action:
                  and event.entity_id is defined
                  and event.entity_id in expanded_light_entities
                  and event.new_state is not none
+                 and event.new_state.state == 'on'
                  and event.new_state.attributes.color_mode is defined
                  and event.new_state.attributes.color_mode not in ['color_temp', 'white']
                  and (
