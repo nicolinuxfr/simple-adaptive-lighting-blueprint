@@ -51,6 +51,7 @@ This blueprint intentionally does not handle certain features:
 - No curve adjustment — the retained parameters are those that suit my needs;
 - No adjustments possible for start and end times — only sunrise and sunset times at your home's location are used;
 - No manual light control in case of individual changes — the automation will always trigger every five minutes and overwrite changes;
+- No switching on and off lights ;
 - Certainly many others.
 
 ## Disclaimer
