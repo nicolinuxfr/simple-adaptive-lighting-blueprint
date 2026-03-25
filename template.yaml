@@ -367,7 +367,7 @@ action:
                  ) }}
         sequence:
           - delay:
-              milliseconds: 800
+              milliseconds: 200
 
   - variables:
       on_lights: >
@@ -640,7 +640,7 @@ action:
                   target:
                     entity_id: "{{ repeat.item }}"
                   data:
-                    transition: 10
+                    transition: 15
                     brightness_pct: "{{ effective_brightness | int(0) }}"
                     color_temp_kelvin: "{{ clamped_kelvin | int(0) }}"
             - conditions:
@@ -657,7 +657,7 @@ action:
                   target:
                     entity_id: "{{ repeat.item }}"
                   data:
-                    transition: 10
+                    transition: 15
                     brightness_pct: "{{ effective_brightness | int(0) }}"
             - conditions:
                 - condition: template
@@ -673,7 +673,7 @@ action:
                   target:
                     entity_id: "{{ repeat.item }}"
                   data:
-                    transition: 10
+                    transition: 15
                     brightness_pct: "{{ effective_brightness | int(0) if night_mode_active else current_brightness_pct | int(0) }}"
                     color_temp_kelvin: "{{ clamped_kelvin | int(0) }}"
             - conditions:
@@ -685,7 +685,7 @@ action:
                   target:
                     entity_id: "{{ repeat.item }}"
                   data:
-                    transition: 10
+                    transition: 0
                     brightness_pct: "{{ effective_brightness | int(0) }}"
                     color_temp_kelvin: "{{ clamped_kelvin | int(0) }}"
             - conditions:
@@ -697,7 +697,7 @@ action:
                   target:
                     entity_id: "{{ repeat.item }}"
                   data:
-                    transition: 10
+                    transition: 0
                     brightness_pct: "{{ effective_brightness | int(0) }}"
             - conditions:
                 - condition: template
@@ -708,7 +708,7 @@ action:
                   target:
                     entity_id: "{{ repeat.item }}"
                   data:
-                    transition: 10
+                    transition: 0
                     color_temp_kelvin: "{{ clamped_kelvin | int(0) }}"
           default:
             - action: light.turn_on
@@ -716,4 +716,4 @@ action:
               target:
                 entity_id: "{{ repeat.item }}"
               data:
-                transition: 10
+                transition: 0
