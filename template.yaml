@@ -243,7 +243,9 @@ condition:
          and event.new_state is not none %}
       {% set light_turned_on = light_state_event
          and event.new_state.state == 'on'
-         and (event.old_state is none or event.old_state.state != 'on') %}
+         and (event.old_state is none or event.old_state.state != 'on')
+         and (event.old_state is none
+              or ((as_timestamp(event.new_state.last_changed) | float(0)) - (as_timestamp(event.old_state.last_changed) | float(0))) > 3) %}
       {% set light_switched_to_color = light_state_event
          and disable_on_color
          and auto_mode_input_entity not in ['', none]
