@@ -97,13 +97,6 @@ blueprint:
           selector:
             boolean:
 
-        soft_off:
-          name: [[input.soft_off.name]]
-          description: [[input.soft_off.description]]
-          default: false
-          selector:
-            boolean:
-
         weather_entity:
           name: [[input.weather_entity.name]]
           description: [[input.weather_entity.description]]
@@ -157,7 +150,6 @@ variables:
   blueprint_revision: "[[blueprint.version]]"
   auto_mode_input_entity: !input auto_mode_boolean
   disable_on_color: !input disable_on_color
-  soft_off: !input soft_off
   restore_on_off: !input restore_on_off
   b_night: !input brightness_night
   b_day: !input brightness_day
@@ -243,9 +235,7 @@ condition:
          and event.new_state is not none %}
       {% set light_turned_on = light_state_event
          and event.new_state.state == 'on'
-         and (event.old_state is none or event.old_state.state != 'on')
-         and (event.old_state is none
-              or ((as_timestamp(event.new_state.last_changed) | float(0)) - (as_timestamp(event.old_state.last_changed) | float(0))) > 3) %}
+         and (event.old_state is none or event.old_state.state != 'on') %}
       {% set light_switched_to_color = light_state_event
          and disable_on_color
          and auto_mode_input_entity not in ['', none]
@@ -263,13 +253,6 @@ condition:
          and auto_mode_input_entity not in ['', none]
          and auto_mode_input_entity.startswith('input_boolean.')
          and event.new_state.state == 'off'
-         and (expand(light_entities) | selectattr('state', 'eq', 'on') | list | count) == 0 %}
-      {% set light_turned_off_soft = light_state_event
-         and soft_off
-         and event.new_state.state == 'off'
-         and event.old_state is not none
-         and event.old_state.state == 'on'
-         and ((as_timestamp(event.new_state.last_changed) | float(0)) - (as_timestamp(event.old_state.last_changed) | float(0))) > 3
          and (expand(light_entities) | selectattr('state', 'eq', 'on') | list | count) == 0 %}
       {{ trigger.id not in ['auto_mode_enabled', 'night_mode_changed', 'light_state_changed']
          or (
@@ -297,8 +280,7 @@ condition:
          )
          or light_turned_on
          or light_switched_to_color
-         or light_turned_off_all_off
-         or light_turned_off_soft }}
+         or light_turned_off_all_off }}
 
   - condition: template
     value_template: >
@@ -314,58 +296,11 @@ condition:
          and is_state(auto_mode_input_entity, 'off')
          and event.new_state.state == 'off'
          and (expand(light_entities) | selectattr('state', 'eq', 'on') | list | count) == 0 %}
-      {% set soft_off_scenario = soft_off
-         and trigger.id == 'light_state_changed'
-         and event is not none
-         and event.entity_id is defined
-         and event.entity_id in expanded_light_entities
-         and event.new_state is not none
-         and event.new_state.state == 'off' %}
       {{ auto_mode_input_entity in ['', none]
          or is_state(auto_mode_input_entity, 'on')
-         or restore_scenario
-         or soft_off_scenario }}
+         or restore_scenario }}
 
 action:
-  - if:
-      - condition: trigger
-        id: light_state_changed
-      - condition: template
-        value_template: >
-          {% set event = trigger.event.data if trigger.event is defined and trigger.event.data is defined else none %}
-          {{ soft_off
-             and event is not none
-             and event.entity_id is defined
-             and event.entity_id in expanded_light_entities
-             and event.new_state is not none
-             and event.new_state.state == 'off'
-             and event.old_state is not none
-             and event.old_state.state == 'on'
-             and ((as_timestamp(event.new_state.last_changed) | float(0)) - (as_timestamp(event.old_state.last_changed) | float(0))) > 3
-             and (expand(light_entities) | selectattr('state', 'eq', 'on') | list | count) == 0 }}
-    then:
-      - variables:
-          soft_off_lights: >
-            {{ expand(light_entities)
-               | selectattr('state', 'eq', 'off')
-               | selectattr('entity_id', 'in', expanded_light_entities)
-               | map(attribute='entity_id')
-               | list }}
-      - action: light.turn_on
-        continue_on_error: true
-        target:
-          entity_id: "{{ soft_off_lights }}"
-        data:
-          brightness_pct: 1
-          transition: 0
-      - action: light.turn_off
-        continue_on_error: true
-        target:
-          entity_id: "{{ soft_off_lights }}"
-        data:
-          transition: 0
-      - stop: "Soft off completed"
-
   - if:
       - condition: trigger
         id: light_state_changed

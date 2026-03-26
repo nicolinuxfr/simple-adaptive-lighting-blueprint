@@ -20,8 +20,6 @@
   "input.restore_on_off.description": "Si l'option est activée, l'entité de contrôle est automatiquement réactivée quand toutes les lumières sont éteintes.",
   "input.disable_on_color.name": "Désactivation automatique avec des couleurs",
   "input.disable_on_color.description": "Si l'option est activée, l'entité de contrôle est automatiquement désactivée lorsque l'un des éclairages surveillés passe en couleur.",
-  "input.soft_off.name": "Extinction douce (anti-flash)",
-  "input.soft_off.description": "Si l'option est activée, quand une lumière s'éteint, elle passe brièvement à 1 % de luminosité avant de s'éteindre complètement. Cela évite le flash de lumière forte au prochain allumage (utile pour les ampoules qui mémorisent le dernier état).",
   "input.weather_entity.name": "Variation en fonction de la météo",
   "input.weather_entity.description": "Entité de type météo qui sera utilisée pour ajuster les paramètres en fonction des conditions climatiques. Laisser le champ vide pour ne pas utiliser cette fonctionnalité.",
   "input.night_mode_section.name": "Mode nuit",

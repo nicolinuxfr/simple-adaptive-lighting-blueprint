@@ -20,8 +20,6 @@
   "input.restore_on_off.description": "If enabled, the control entity above is automatically re-enabled when all the managed lights turn off.",
   "input.disable_on_color.name": "Automatic deactivation on color",
   "input.disable_on_color.description": "If enabled, the control entity above is automatically disabled when one of the monitored lights switches to color mode.",
-  "input.soft_off.name": "Soft off (anti-flash)",
-  "input.soft_off.description": "If enabled, when a light turns off, it briefly transitions to 1% brightness before fully turning off. This prevents a bright flash on the next power-on (useful for bulbs that remember their last state).",
   "input.weather_entity.name": "Weather-based variation",
   "input.weather_entity.description": "A weather entity that will be used to adjust settings based on weather conditions. Leave the field empty to not use this feature.",
   "input.night_mode_section.name": "Night mode",

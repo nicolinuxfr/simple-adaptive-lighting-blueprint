@@ -20,8 +20,6 @@
   "input.restore_on_off.description": "Falls aktiviert, wird die Steuerungsentität oben automatisch wieder aktiviert, wenn alle verwalteten Leuchten ausgeschaltet werden.",
   "input.disable_on_color.name": "Automatische Deaktivierung bei Farbe",
   "input.disable_on_color.description": "Falls aktiviert, wird die Steuerungsentität oben automatisch deaktiviert, wenn eine der überwachten Leuchten in den Farbmodus wechselt.",
-  "input.soft_off.name": "Sanftes Ausschalten (Anti-Blitz)",
-  "input.soft_off.description": "Falls aktiviert, wird die Leuchte beim Ausschalten kurzzeitig auf 1 % Helligkeit gesetzt, bevor sie vollständig ausgeschaltet wird. Dies verhindert einen hellen Blitz beim nächsten Einschalten (nützlich für Leuchtmittel, die ihren letzten Zustand speichern).",
   "input.weather_entity.name": "Variation nach Wetterbedingungen",
   "input.weather_entity.description": "Eine Wetterentität, die verwendet wird, um die Einstellungen je nach Wetterbedingungen anzupassen. Lassen Sie das Feld leer, um diese Funktion nicht zu verwenden.",
   "input.night_mode_section.name": "Nachtmodus",
