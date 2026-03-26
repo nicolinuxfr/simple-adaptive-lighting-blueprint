@@ -269,7 +269,8 @@ condition:
          and event.new_state.state == 'off'
          and event.old_state is not none
          and event.old_state.state == 'on'
-         and ((as_timestamp(event.new_state.last_changed) | float(0)) - (as_timestamp(event.old_state.last_changed) | float(0))) > 3 %}
+         and ((as_timestamp(event.new_state.last_changed) | float(0)) - (as_timestamp(event.old_state.last_changed) | float(0))) > 3
+         and (expand(light_entities) | selectattr('state', 'eq', 'on') | list | count) == 0 %}
       {{ trigger.id not in ['auto_mode_enabled', 'night_mode_changed', 'light_state_changed']
          or (
            trigger.id == 'auto_mode_enabled'
@@ -340,7 +341,8 @@ action:
              and event.new_state.state == 'off'
              and event.old_state is not none
              and event.old_state.state == 'on'
-             and ((as_timestamp(event.new_state.last_changed) | float(0)) - (as_timestamp(event.old_state.last_changed) | float(0))) > 3 }}
+             and ((as_timestamp(event.new_state.last_changed) | float(0)) - (as_timestamp(event.old_state.last_changed) | float(0))) > 3
+             and (expand(light_entities) | selectattr('state', 'eq', 'on') | list | count) == 0 }}
     then:
       - variables:
           soft_off_lights: >
