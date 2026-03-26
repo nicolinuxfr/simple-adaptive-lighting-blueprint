@@ -2,7 +2,21 @@
   "permissions": {
     "allow": [
       "Bash(python3 scripts/generate_blueprints.py)",
-      "Bash(python3 scripts/generate_blueprints.py --write-root-default)"
+      "Bash(python3 scripts/generate_blueprints.py --write-root-default)",
+      "Bash(/tmp/ha-blueprint-project-workspace/iteration-1/eval-1-add-language/with_skill/outputs/es.json:*)",
+      "Bash(/tmp/ha-blueprint-project-workspace/iteration-1/eval-1-add-language/with_skill/outputs/README_es.md:*)",
+      "Bash(/tmp/ha-blueprint-project-workspace/iteration-1/eval-1-add-language/with_skill/outputs/explanation.md:*)",
+      "Bash(/tmp/ha-blueprint-project-workspace/iteration-1/eval-1-add-language/without_skill/outputs/es.json:*)",
+      "Bash(SKILL_CREATOR_PATH=\"/Users/nicolas/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/f1e880e4-d34b-4362-b5b9-46cc216f8b95/b9a246ad-7b76-4522-9e57-09718915c7b8/skills/skill-creator\")",
+      "Bash(__NEW_LINE_1f9b8f3a8b50e1e7__ python \"$SKILL_CREATOR_PATH/eval-viewer/generate_review.py\" /tmp/ha-blueprint-project-workspace/iteration-1 --skill-name \"ha-blueprint-project\" --benchmark /tmp/ha-blueprint-project-workspace/iteration-1/benchmark.json --static /tmp/ha-blueprint-project-review.html)",
+      "Bash(__NEW_LINE_0910584989c9e06e__ python3 \"$SKILL_CREATOR_PATH/eval-viewer/generate_review.py\" /tmp/ha-blueprint-project-workspace/iteration-1 --skill-name \"ha-blueprint-project\" --benchmark /tmp/ha-blueprint-project-workspace/iteration-1/benchmark.json --static /tmp/ha-blueprint-project-review.html)",
+      "Bash(open /tmp/ha-blueprint-project-review.html)",
+      "Bash(pip3 install pyyaml -q)",
+      "Read(//Users/nicolas/Developer/domotique/simple-adaptive-lighting-blueprint/**)",
+      "Bash(python3 -m scripts.package_skill /tmp/ha-blueprint-project)",
+      "Bash(pip3 install pyyaml --user -q)",
+      "Bash(uv run:*)",
+      "Bash(python scripts/generate_blueprints.py)"
     ]
   }
 }
